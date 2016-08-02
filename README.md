@@ -8,7 +8,7 @@ The maximum possible difference between any two array elements is `2^m - 1`. As 
 
 So potentially keeping deltas between neighbor elements utilizes smaller numbers of bits than the original element values. This is not always the case because the number of bits is rounded up to an integer.
 
-For instance, for a sorted array `[10, 50, 250]` the corresponding delta array is `[10, 40, 200]` and the number of utilized bits is `[4, 6, 8]` in both cases. However for a sorted array `[10, 41, 72, 103, 134, 165, 196, 227]` the corresponding delta array is [10, 31, 31, 31, 31, 31, 31, 31] and the number of utilized bits from `[4, 6, 7, 7, 8, 8, 8, 8]` becomes `[4, 5, 5, 5, 5, 5, 5]`.
+For instance, for a sorted array `[10, 50, 250]` the corresponding delta array is `[10, 40, 200]` and the number of utilized bits is `[4, 6, 8]` in both cases. However for a sorted array `[10, 41, 72, 103, 134, 165, 196, 227]` the corresponding delta array is `[10, 31, 31, 31, 31, 31, 31, 31]` and the number of utilized bits from `[4, 6, 7, 7, 8, 8, 8, 8]` becomes `[4, 5, 5, 5, 5, 5, 5]`.
 
 We would like to keep only significant bits of deltas, however this parameter might change from one element to another. So we need to keep the bit-length of every delta too. A possible way to do it is to allocate `log(m)` aux bits per element. For uint8_t the values 0 -- 7 would encode 1 -- 8 bit-length correspondingly. Thus in the example above we keep the encoded data like this `[(4, 10), (5, 31), (5, 31), (5, 31), (5, 31), (5, 31), (5, 31), (5, 31)]`. The space requirements are `8 * 3 + 4 + 7 * 5 = 63`. We saved 1 bit using this encoding. Not much, one would say. But let's look at this more generically.
 
